@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Eid Mubarak Jaan 🌙</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap');
+
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins', sans-serif;}
+
+html, body {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #1a0005; /* Dark Romantic Red */
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  touch-action: none;
+}
+
+.lockScreen{
+  position: fixed;
+  inset: 0;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  padding: 20px;
+}
+
+.lockScreen h2 {
+  color: #ff3e6c;
+  margin-bottom: 30px;
+  font-size: clamp(1.2rem, 5vw, 1.8rem);
+  text-align: center;
+  font-weight: 500;
+}
+
+.unlockBtn{
+  background: transparent;
+  border: 2px solid #ff3e6c;
+  padding: 12px 35px;
+  border-radius: 50px;
+  color: #ff3e6c;
+  font-size: 1.1rem;
+  cursor: pointer;
+  font-weight: 700;
+  outline: none;
+}
+
+.curtainContainer {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  overflow: hidden; 
+}
+
+.curtain{
+  position: absolute;
+  top: 0;
+  width: 51%; 
+  height: 100%;
+  background: #2b0008;
+  transition: transform 2s cubic-bezier(0.7, 0, 0.3, 1);
+}
+
+.left{ left: 0; border-right: 1px solid #ff3e6c; }
+.right{ right: 0; border-left: 1px solid #ff3e6c; }
+
+.openLeft{ transform: translateX(-100%); }
+.openRight{ transform: translateX(100%); }
+
+.container{
+  position: relative;
+  z-index: 5;
+  width: 90%;
+  max-width: 600px;
+  text-align: center;
+  opacity: 0;
+}
+
+.line{
+  font-size: clamp(1.4rem, 8vw, 2.8rem);
+  font-weight: 700;
+  color: #ff3e6c;
+  opacity: 0;
+  transform: translateY(15px);
+  transition: 1s all ease-in-out;
+  line-height: 1.6;
+}
+
+.show{ opacity: 1; transform: translateY(0); }
+
+canvas{ position: fixed; inset: 0; z-index: 1; pointer-events: none; }
+</style>
+</head>
+<body>
+
+<div class="lockScreen" id="lockScreen">
+  <h2>Eid ka Chand Nazar Aya 🌙</h2>
+  <button class="unlockBtn" onclick="unlock()">Sirf Tumhare Liye</button>
+</div>
+
+<div class="curtainContainer">
+  <div class="curtain left" id="leftCurtain"></div>
+  <div class="curtain right" id="rightCurtain"></div>
+</div>
+
+<div class="container" id="textContainer">
+  <div class="line" id="textLine"></div>
+</div>
+
+<canvas id="canvas"></canvas>
+
+<script>
+let started = false;
+
+// Personalized neutral-serious lines for wifey
+const lines = [
+  "Assalam o Alaikum Jaan",
+  "Aapko Eid Mubarak Ho",
+  "Mera har din tumhare sath Eid hai",
+  "Khuda kare tum hamesha muskurati raho",
+  "Allah hamara sath hamesha salamat rakhe",
+  "Tum meri zindagi ki sab se bari khushi ho",
+  "Dua hai ke agali har Eid ham sath manaen",
+  "Stay Blessed aur Always Happy",
+  "I Love You So Much",
+  "Tumhare Liye Dher Saari Duayein"
+];
+
+let i = 0;
+const textLine = document.getElementById("textLine");
+const textContainer = document.getElementById("textContainer");
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resize);
+resize();
+
+function unlock(){
+  if(started) return;
+  started = true;
+  document.getElementById("lockScreen").style.display = "none";
+  document.getElementById("leftCurtain").classList.add("openLeft");
+  document.getElementById("rightCurtain").classList.add("openRight");
+  
+  setTimeout(() => {
+      textContainer.style.opacity = "1";
+      showLines();
+      animateHearts();
+  }, 500);
+}
+
+function showLines(){
+  if(i >= lines.length) return; 
+  
+  textLine.classList.remove("show");
+  setTimeout(() => {
+    textLine.innerHTML = lines[i];
+    textLine.classList.add("show");
+    i++;
+    setTimeout(showLines, 5500); // 5.5 seconds delay
+  }, 600);
+}
+
+let hearts = [];
+function animateHearts(){
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if(Math.random() < 0.08) createHeart();
+  hearts.forEach((h, index) => {
+    h.y -= h.speed; 
+    h.alpha -= 0.005;
+    ctx.globalAlpha = h.alpha;
+    ctx.fillStyle = "#ff3e6c";
+    ctx.font = h.size + "px serif";
+    ctx.fillText("❤️", h.x, h.y);
+    if(h.alpha <= 0) hearts.splice(index, 1);
+  });
+  requestAnimationFrame(animateHearts);
+}
+
+function createHeart(){
+  hearts.push({
+    x: Math.random() * canvas.width,
+    y: canvas.height + 10,
+    speed: Math.random() * 1.5 + 0.5,
+    size: Math.random() * 15 + 10,
+    alpha: 1
+  });
+}
+</script>
+</body>
+</html>
