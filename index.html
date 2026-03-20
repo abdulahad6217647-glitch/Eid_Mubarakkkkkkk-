@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ur" dir="rtl">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Eid Mubarak Jaan 🌙</title>
+<title>Eid Mubarak My Queen 🌙</title>
 
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap');
@@ -15,7 +15,7 @@ html, body {
   position: fixed;
   width: 100%;
   height: 100%;
-  background: #1a0005; /* Dark Romantic Red */
+  background: #1a0005; 
 }
 
 body {
@@ -25,6 +25,7 @@ body {
   touch-action: none;
 }
 
+/* LOCK SCREEN */
 .lockScreen{
   position: fixed;
   inset: 0;
@@ -39,24 +40,27 @@ body {
 
 .lockScreen h2 {
   color: #ff3e6c;
-  margin-bottom: 30px;
-  font-size: clamp(1.2rem, 5vw, 1.8rem);
+  margin-bottom: 25px;
+  font-size: clamp(1.1rem, 5vw, 1.5rem);
   text-align: center;
   font-weight: 500;
 }
 
-.unlockBtn{
+.lockScreen input{
   background: transparent;
-  border: 2px solid #ff3e6c;
-  padding: 12px 35px;
-  border-radius: 50px;
-  color: #ff3e6c;
-  font-size: 1.1rem;
-  cursor: pointer;
-  font-weight: 700;
+  border: 1px solid #ff3e6c;
+  padding: 12px 20px;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1rem;
+  text-align: center;
   outline: none;
+  width: 100%;
+  max-width: 250px;
+  margin-bottom: 20px;
 }
 
+/* CURTAINS */
 .curtainContainer {
   position: fixed;
   inset: 0;
@@ -71,7 +75,7 @@ body {
   width: 51%; 
   height: 100%;
   background: #2b0008;
-  transition: transform 2s cubic-bezier(0.7, 0, 0.3, 1);
+  transition: transform 2.2s cubic-bezier(0.7, 0, 0.3, 1);
 }
 
 .left{ left: 0; border-right: 1px solid #ff3e6c; }
@@ -80,17 +84,18 @@ body {
 .openLeft{ transform: translateX(-100%); }
 .openRight{ transform: translateX(100%); }
 
+/* MAIN TEXT */
 .container{
   position: relative;
   z-index: 5;
   width: 90%;
-  max-width: 600px;
+  max-width: 750px;
   text-align: center;
   opacity: 0;
 }
 
 .line{
-  font-size: clamp(1.4rem, 8vw, 2.8rem);
+  font-size: clamp(1.1rem, 5vw, 2rem);
   font-weight: 700;
   color: #ff3e6c;
   opacity: 0;
@@ -107,8 +112,8 @@ canvas{ position: fixed; inset: 0; z-index: 1; pointer-events: none; }
 <body>
 
 <div class="lockScreen" id="lockScreen">
-  <h2>Eid ka Chand Nazar Aya 🌙</h2>
-  <button class="unlockBtn" onclick="unlock()">Sirf Tumhare Liye</button>
+  <h2>Eid Mubarak My Queen 🌙</h2>
+  <input type="text" id="passInput" placeholder="DD/MM" inputmode="text">
 </div>
 
 <div class="curtainContainer">
@@ -125,21 +130,22 @@ canvas{ position: fixed; inset: 0; z-index: 1; pointer-events: none; }
 <script>
 let started = false;
 
-// Personalized neutral-serious lines for wifey
 const lines = [
-  "Assalam o Alaikum Jaan",
-  "Aapko Eid Mubarak Ho",
-  "Mera har din tumhare sath Eid hai",
-  "Khuda kare tum hamesha muskurati raho",
-  "Allah hamara sath hamesha salamat rakhe",
-  "Tum meri zindagi ki sab se bari khushi ho",
-  "Dua hai ke agali har Eid ham sath manaen",
-  "Stay Blessed aur Always Happy",
-  "I Love You So Much",
-  "Tumhare Liye Dher Saari Duayein"
+  "Eid Mubarak to the incredible woman who is the center of my universe",
+  "Every single day I thank Allah for the blessing of having you as my life partner",
+  "You are not just my wife you are my strength my peace and my home",
+  "As we celebrate this Eid my deepest prayer is for our bond to be protected",
+  "May we remain united in this life and the hereafter",
+  "May Allah fill your life with the kind of pure happiness you bring into mine",
+  "May He grant you impeccable health and fulfill every silent prayer of your heart",
+  "Thank you for being my constant support and the most beautiful part of my existence",
+  "You truly mean everything to me and I love you beyond any measure",
+  "Stay Blessed and Always Happy ❤️",
+  "I Love You Forever"
 ];
 
 let i = 0;
+const input = document.getElementById("passInput");
 const textLine = document.getElementById("textLine");
 const textContainer = document.getElementById("textContainer");
 const canvas = document.getElementById("canvas");
@@ -152,9 +158,15 @@ function resize() {
 window.addEventListener('resize', resize);
 resize();
 
+// Password check logic
+input.addEventListener("input", () => {
+  if(input.value === "24/10" && !started){
+    started = true;
+    unlock();
+  }
+});
+
 function unlock(){
-  if(started) return;
-  started = true;
   document.getElementById("lockScreen").style.display = "none";
   document.getElementById("leftCurtain").classList.add("openLeft");
   document.getElementById("rightCurtain").classList.add("openRight");
@@ -168,13 +180,12 @@ function unlock(){
 
 function showLines(){
   if(i >= lines.length) return; 
-  
   textLine.classList.remove("show");
   setTimeout(() => {
     textLine.innerHTML = lines[i];
     textLine.classList.add("show");
     i++;
-    setTimeout(showLines, 5500); // 5.5 seconds delay
+    setTimeout(showLines, 6500); 
   }, 600);
 }
 
@@ -183,12 +194,9 @@ function animateHearts(){
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   if(Math.random() < 0.08) createHeart();
   hearts.forEach((h, index) => {
-    h.y -= h.speed; 
-    h.alpha -= 0.005;
-    ctx.globalAlpha = h.alpha;
-    ctx.fillStyle = "#ff3e6c";
-    ctx.font = h.size + "px serif";
-    ctx.fillText("❤️", h.x, h.y);
+    h.y -= h.speed; h.alpha -= 0.005;
+    ctx.globalAlpha = h.alpha; ctx.fillStyle = "#ff3e6c";
+    ctx.font = h.size + "px serif"; ctx.fillText("❤️", h.x, h.y);
     if(h.alpha <= 0) hearts.splice(index, 1);
   });
   requestAnimationFrame(animateHearts);
